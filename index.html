@@ -7,8 +7,10 @@
     <style>
         body {
             border: 5px solid brown;
-            background-color: white;
+            background-color: antiquewhite;
             font-family: Arial, sans-serif;
+            width:70%;
+            margin-left: 200px;
         }
         .one {
             display: flex;
@@ -16,15 +18,12 @@
         }
         .o1 {
             width: 30%;
-            padding: 40px;
         }
         .o2 {
             width: 40%;
-            padding: 20px;
         }
         .o3 {
             width: 30%;
-            padding: 20px;
         }
         .heading {
             text-align: center;
@@ -51,7 +50,7 @@
             grid-template-rows: repeat(5, auto);
             text-align: center;
             margin: 10px;
-            width:1703px;
+            width: 1240px;
         }
         .subject1 div {
             border: 2px solid sandybrown;
@@ -67,7 +66,7 @@
         .t7 { grid-column: 5; grid-row: 2; }
         .t8 { grid-column: 6; grid-row: 2; }
         .t9 { grid-column: 1; grid-row: 3; }
-        .t10 { grid-column: 2; grid-row: 3;text-align: left; }
+        .t10 { grid-column: 2; grid-row: 3; text-align: left; }
         .t11 { grid-column: 3; grid-row: 3; }
         .t12 { grid-column: 4; grid-row: 3; }
         .t13 { grid-column: 5; grid-row: 3; }
@@ -96,24 +95,24 @@
         .f2 {
             text-align: center;
         }
-        input[type="number"], input[type="text"] {
-            width: 100%;
+        input{
+            width:100px;
             text-align: center;
             border: 1px solid sandybrown;
             background-color: rgb(252, 207, 167);
             padding: 5px;
         }
-        .subject1 input[type="text"] {
+        .subject1  {
             border: none;
         }
-        .o2 img{
-            width:100px;
-            height:100px;
-        }
         .o3 img{
-            width:100px;
-            height:100px;
+            height: 100px;
+            width: 100px;
         }
+       .o2 img{
+            height: 150px;
+            width: 150px;
+       }
     </style>
 </head>
 <body>
@@ -124,10 +123,10 @@
                 <h4>Sr.No:<span style="color: brown;">0000000</span></h4>
             </div>
             <div class="o2">
-                <img src="collegelogo.jpg" alt="image">
+                <img src="college.jpg" alt="image">
             </div>
             <div class="o3">
-                <img src="qrcode.jpg" alt="image">
+                <img src="qrcode.jpg" alt="">
             </div>
         </div>
         <div class="heading">
@@ -147,10 +146,10 @@
             <div class="t1"><h3>Subject <br>Code</h3></div>
             <div class="t2"><h3>Subject Name</h3></div>
             <div class="t3"><h3>Max.<br>Marks</h3></div>
-            <div class="t4"><h3>Marks Obtained<br> In Figures</h3></div>
-            <div class="t5"><h3>Total In <br>Words</h3></div>
-            <div class="t6"><h3>Theory</h3></div>
-            <div class="t7"><h3>Practical</h3></div>
+            <div class="t4"><h3>Total Marks</h3></div>
+            <div class="t5"><h3>Total in Words</h3></div>
+            <div class="t6"><h3>Theory Marks</h3></div>
+            <div class="t7"><h3>Practical Marks</h3></div>
             <div class="t8"><h3>Total</h3></div>
             <div class="t9">
                 <input type="text" id="subject-code-1" value="DFS012-101">
@@ -170,7 +169,7 @@
                 <input type="text" id="subject-name-5" value="Industrial Safety Management">
                 <input type="text" id="subject-name-6" value="Practical I">
                 <input type="text" id="subject-name-7" value="Practical II">
-                <input type="text" id="subject-name-8" value="Practical III">
+                <input type="text" id="subject-name-8" value="Project Work">
             </div>
             <div class="t11">
                 <input type="number" id="max-marks-1" value="100" readonly>
@@ -265,4 +264,38 @@
             const grandTotal = totalMarksObtained;
             const percentage = (totalMarksObtained / (numSubjects * 100)) * 100;
             const grade = getGrade(percentage);
+
+            document.getElementById('grand-total').innerText = grandTotal;
+            document.getElementById('grand-total-words').innerText = toWords(grandTotal);
+            document.getElementById('percentage').innerText = `${percentage.toFixed(2)}%`;
+            document.getElementById('grade').innerText = grade;
         }
+
+        function toWords(num) {
+            const units = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const teens = ["Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+            if (num < 10) return units[num];
+            if (num < 20) return teens[num - 11];
+            if (num % 10 === 0) return tens[Math.floor(num / 10) - 1];
+            return tens[Math.floor(num / 10) - 1] + " " + units[num % 10];
+        }
+
+        function getGrade(percentage) {
+            if (percentage >= 90) return "A";
+            if (percentage >= 80) return "B";
+            if (percentage >= 70) return "C";
+            if (percentage >= 60) return "D";
+            if (percentage >= 50) return "E";
+            return "F";
+        }
+
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', calculateTotals);
+        });
+
+        calculateTotals(); // Initialize calculations
+    </script>
+</body>
+</html>
